@@ -1,4 +1,6 @@
 #include <SPI.h>
+// http://arduino.cc/forum/index.php?topic=70479.0;wap2
+// https://bitbucket.org/spirilis/tlc5917
 #include <TLC5917.h>
 
 TLC5917 *t;
