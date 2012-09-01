@@ -1,4 +1,5 @@
 #include <SPI.h>
+#include <avr/sleep.h>
 // http://arduino.cc/forum/index.php?topic=70479.0;wap2
 // https://bitbucket.org/spirilis/tlc5917
 #include <TLC5917.h>
@@ -19,26 +20,45 @@ void setup()
   t->config(1,1);
   t->enable();
   t->writeLEDs(&a);
+  pinMode(pin_shutter,INPUT);
   pinMode(pin_mma,OUTPUT);
   pinMode(pin_lcos,OUTPUT);
-  attachInterrupt(0,shutter_in,RISING);
 }
 
-volatile byte state=LOW;
-
-void
-shutter_in() // gets called 2ms before camera integrates
-{
-  state = !state;
-  digitalWrite(pin_mma,state);
-  digitalWrite(pin_lcos,!state);
-}
+void shutter_in() {} // gets called 2ms before camera integrates
 
 byte c=0;
+
+
+void sleep_now()
+{
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  sleep_enable();
+  attachInterrupt(0,shutter_in,RISING);
+  sleep_mode();  // this puts arduino to sleep
+  sleep_disable();
+  detachInterrupt(0); // first thing after wake-up
+}
 
 void
 loop()
 {
+  sleep_now();
+  //cli();
+ // delayMicroseconds(2000-840);
+  //digitalWrite(pin_mma,HIGH);
+  delayMicroseconds(940-396);
+   digitalWrite(pin_lcos,HIGH);
+  delayMicroseconds(396);
+  t->enable();
+ // delayMicroseconds(4000);
+ // delayMicroseconds(300);
+  digitalWrite(pin_mma,LOW);
+  digitalWrite(pin_lcos,LOW);
+  
+  delay(20);
+  t->disable();
+  //sei();
 //  c++;
 //  
 //  if(c<128)   // change current for the leds
