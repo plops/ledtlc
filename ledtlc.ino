@@ -5,7 +5,7 @@
 #include <TLC5917.h>
 
 TLC5917 *t;
-byte a=0xff,b=0x0a;
+byte a=0xff,b=127;
 
 byte
 pin_shutter=2, // interrupt 0
@@ -19,7 +19,7 @@ void setup()
   //t->config(.9,1);
   t->config(1,1);
   t->enable();
-  t->writeLEDs(&a);
+  t->writeLEDs(&b);
   pinMode(pin_shutter,INPUT);
   pinMode(pin_mma,OUTPUT);
   pinMode(pin_lcos,OUTPUT);
