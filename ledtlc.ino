@@ -46,14 +46,16 @@ loop()
   sleep_now();
   //cli();
  // delayMicroseconds(2000-840);
-  //digitalWrite(pin_mma,HIGH);
-  delayMicroseconds(940-396);
-   digitalWrite(pin_lcos,HIGH);
+  digitalWrite(pin_mma,HIGH);
+  delayMicroseconds(50);
+  digitalWrite(pin_mma,LOW);
+  delayMicroseconds(940-396-50);
+  digitalWrite(pin_lcos,HIGH);
   delayMicroseconds(396);
   t->enable();
  // delayMicroseconds(4000);
  // delayMicroseconds(300);
-  digitalWrite(pin_mma,LOW);
+  
   digitalWrite(pin_lcos,LOW);
   
   delay(20);
