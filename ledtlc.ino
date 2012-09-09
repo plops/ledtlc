@@ -7,7 +7,7 @@
 TLC5917 *t;
 byte a=0xff,b=127;
 
-byte
+const byte
 pin_shutter=2, // interrupt 0
 pin_mma=3,
 pin_lcos=4;
@@ -44,21 +44,26 @@ void
 loop()
 {
   sleep_now();
-  //cli();
- // delayMicroseconds(2000-840);
-  digitalWrite(pin_mma,HIGH);
+//  http://www.arduino.cc/en/Reference/PortManipulation
+// PORTD contains pin 3 and 4
+  delayMicroseconds(100);
+  PORTD=B00001000; //digitalWrite(pin_mma,HIGH);
   delayMicroseconds(50);
-  digitalWrite(pin_mma,LOW);
-  delayMicroseconds(940-396-50);
-  digitalWrite(pin_lcos,HIGH);
-  delayMicroseconds(396);
+  PORTD=B00000000; //digitalWrite(pin_mma,LOW);
+  
+  delayMicroseconds(940-396-100-50);
+  PORTD=B00010000;//digitalWrite(pin_lcos,HIGH);
+  delayMicroseconds(50);
+  PORTD=B00000000;//digitalWrite(pin_lcos,LOW); 
+  delayMicroseconds(396-50);
   t->enable();
  // delayMicroseconds(4000);
  // delayMicroseconds(300);
   
-  digitalWrite(pin_lcos,LOW);
+ 
   
-  delay(20);
+  delay(19);
+  delayMicroseconds(971);
   t->disable();
   //sei();
 //  c++;
