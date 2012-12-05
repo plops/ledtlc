@@ -60,7 +60,6 @@ loop()
  // delayMicroseconds(4000);
  // delayMicroseconds(300);
   
- 
   
   delay(19);
   delayMicroseconds(971);
